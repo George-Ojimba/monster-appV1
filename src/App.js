@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { CardList } from "./components/card-list/card-list-component";
-import { SearchBox } from "./components/search-box/search-box.component";
+import React, { Component } from "react";
+import "./App.css";
 
-import './App.css';
+import { CardList } from "./components/card-list/card-list.component";
+import { SearchInput } from "./components/input/input.component";
 
 class App extends Component {
   constructor() {
@@ -10,32 +10,47 @@ class App extends Component {
 
     this.state = {
       monsters: [],
-      searchField: ""
-    }
+      searchField: "",
+    };
   }
 
   componentDidMount() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(user => this.setState({ monsters: user }))
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json()) //convert response to JSON
+      .then((users) => this.setState({ monsters: users }))
+      .catch((error) => console.log(error));
   }
-
 
   render() {
     const { monsters, searchField } = this.state;
-    const filteredMonsters = monsters.filter(monster => monster.name.toLowerCase().includes(searchField.toLowerCase()));
+    const filterMonster = monsters.filter((monster) =>
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );
+
     return (
-      <div className="App">
-        <h1>Monster Rolodex</h1>
-        <SearchBox
-          placeholder='Search Monsters'
-          handleChange={e => this.setState({ searchField: e.target.value })}
+      <div className="app">
+        <h1 className="app__heading">Monster Rolodex</h1>
+        <SearchInput
+          placeholder="Search Monsters"
+          handleChange={(e) => this.setState({ searchField: e.target.value })}
         />
-        <CardList monster={filteredMonsters} />
+        <CardList monsters={filterMonster} />
       </div>
     );
   }
 }
 
 export default App;
- 
+
+/* as soon as state changes, we re-render the component 
+
+
+
+
+
+
+
+
+
+
+*/

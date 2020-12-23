@@ -1,0 +1,144 @@
+
+Note
+
+** render(): will not be invoked if shouldComponentUpdate() return FALSE
+
+constructor(props)
+
+If you dont initialize state and you don't bind methods. You dont need to 
+implement a constructor for your React component.
+
+Note: Typically in react, constructor are only used for two purposes:
+**********************************************************************
+1. initializing local state by assigning an object to this.state
+2. Binding {eventhandler} methods to an instance.
+
+Things to avoid
+******************
+Constructor is the only place where you should assign this.state directly. 
+In all other methods, you should use this.setState() instead.
+
+Avoid copying props into state! This is a common mistake.
+
+constructor(props){
+  super(props);
+  //Don't do this !
+  this.state = {
+    color: props.color
+  }
+}
+
+Lifecycle methods 
+******************
+componentDidMount(): is invoked immediately after a component is mounted(inserted
+into the tree)
+If you need to load data from a remote endpoin, this is a good place to instantiate the 
+network request . 
+
+componentDidUpdate(prevProps,prevState,snapshot)
+- This is invoked immediately after updating occurs. This method isnot called for 
+the initail render.
+
+componentWillUnmount(): is invoked immediately before a component is unmounted and
+destroyed.
+Perform any necessary cleanup in this method, suchas invalidating timers,canceling 
+network request or cleaning up any subscriptions that were creatd in componentDidMount()
+
+Note
+******
+setState() doesn't always immediately update the component(asynchronous in nature).
+It may batch or defer the update until later.
+
+This makes reading this.state right after calling setState() a potential pitfall.
+
+Instead use componentDidUpdate or a setState callback 
+
+i.e setState(updater, callback)
+
+(state,props) => stateChange [updater]
+
+either of which is guarantee to fire after the update has been applied. 
+
+Please note that setState() will always lead to re-rendering unless shouldComponentUpdate()
+returns FALSE.
+
+example 
+this.setState((state,props) => {
+  return {count: state.counter + props.step}
+})
+
+note
+*****
+<MyTextBook autocomplete />
+
+if you pass not value for props, it defaults to true .
+
+<MyTextBook autocomplete = {true} />
+However this isnt recommended because it can be confusing 
+
+spread Atributes
+******************
+function App1() {
+  return <Greeting firstName="Ben" lastName="Hector" />;
+}
+
+function App2() {
+  const props = {firstName: 'Ben', lastName: 'Hector'};
+  return <Greeting {...props} />;
+}
+
+This two codes are equivalent!!!!!
+
+
+CLASSES
+********* 
+Classes are in fact special functions, and just as you can define function expressions and 
+function declarations, the class syntax has two components:
+1. class expression 
+2. class declaration
+
+when you use the function key word or class key word, this is called declarative approach.
+
+Note ==> An important difference between function declaration and class declaration is
+that function declarations are hoisted while class declarations and class expression
+ arent hoisted.
+
+Meaning with function declaration you can call the function and declare it later;
+
+Which means you would need to declare your class and then access it otherwise you would
+throw a ReferenceError.
+
+class declaration example
+****************************
+class Rectangle {
+  constructor(height, width){
+    this.height = height;
+    this.width = width;
+  }
+}
+// doing this before declaring your class would throw a ReferenceError 
+
+const hW = new Rectangle(20, 20); 
+
+class expression example
+**************************
+let Rectangle = class {
+  constructor(width, height){
+    this.width = width;
+    this.height = height; 
+  }
+}
+
+When to bind an eventhandler
+******************************
+Generally, if you refer to a method without () after it, such 
+onClick = {this.handleClick}, you should bind that method 
+
+Inline if with Logical && Operator 
+**************************************
+if the first condition between the && signs is true , it renders the other part of the Logical
+ie 
+{
+  unReadMessages.length > 0 &&  <h2>You have unread messages you to read</h2>
+}
+if the unReadMessages.length > 0 returns true the h2 gets rendered 

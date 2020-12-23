@@ -1,9 +1,20 @@
-.App {
-  text-align: center;
+.app{
+  padding: 5rem 0;
+  text-align:center;
+  font-family: Sansita;
+  color:rgb(0, 0, 0);
 }
 
-h1 {
-  font-family: 'Bigelow Rules';
-  font-size: 72px;
-  color:#0ccac4;
+.app__heading{
+  font-size: 3.1rem;
+  letter-spacing: 3px;
+  font-family: 'Lobster', cursive;
+  color: #8e88ff;
+
 }
+
+img {
+  max-width: 100%;
+}
+
+
